@@ -1,0 +1,3 @@
+conda create -n llms python=3.11
+conda activate llms
+pip install -r requirements.txt

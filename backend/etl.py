@@ -10,6 +10,7 @@ from langchain_community.vectorstores.chroma import Chroma
 from tqdm import tqdm
 
 from backend.config import settings
+# from config import settings
 
 
 class ETLProcessor:
@@ -63,10 +64,16 @@ class ETLProcessor:
         self.collection_name = collection_name
         self.persist_directory = persist_directory
 
+        self.text_splitter = RecursiveCharacterTextSplitter(
+            chunk_overlap=chunk_overlap,
+            chunk_size=chunk_size,
+            add_start_index=True,
+            length_function=len,
+            )
+
         # TODO: Create a text splitter using the
         # `langchain.text_splitter.RecursiveCharacterTextSplitter` class.
         # Hint: Use the `chunk_size` and `chunk_overlap` parameters.
-
 
     def load_data(self) -> pd.DataFrame:
         """
@@ -77,6 +84,17 @@ class ETLProcessor:
         df : pd.DataFrame
             Jobs descriptions with extra metadata from the dataset.
         """
+        cols = ["description",
+                "Employment type",
+                "Seniority level",
+                "company",
+                "location",
+                "post_url",
+                "title"
+                ]
+
+        df = pd.read_csv(self.dataset_path)
+        df = df[cols].dropna(axis=0)
         # TODO: Load the dataset from the `dataset_path` using the
         # `pandas.read_csv()` function.
         # Keep only the following columns: "description", "Employment type",
@@ -84,7 +102,7 @@ class ETLProcessor:
         # Discard the rest.
         # Drop the entire row if any nan values are found on some of the
         # chosen columns.
-        
+        return df
 
     def create_documents(self, descriptions: pd.DataFrame) -> List[Document]:
         """

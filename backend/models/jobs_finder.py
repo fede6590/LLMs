@@ -45,29 +45,42 @@ class JobsFinderAssistant:
         # that a chat history is being provided and that a new question is being asked
         # and also there are some articles found on a database for answering the question.
         # The template must have three input variables: `history`, `search_results` and `human_input`.
-        
-    
+        self.template = """
+        Based on the chat {history} and the search results related to {search_results},
+        here's my response to your latest question: "{human_input}"
+        """
 
         # TODO: Create a prompt template using the string template created above.
         # Hint: Use the `langchain.prompts.PromptTemplate` class.
         # Hint: Don't forget to add the input variables: `history` and `human_input`.
-        self.prompt =
-        
+        self.prompt = PromptTemplate(
+            input_variables=["history", "search_results", "human_input"],
+            template=self.template,
+            )
 
         # TODO: Create an instance of `langchain.chat_models.ChatOpenAI` with the appropriate settings.
         # Remember some settings are being provided in the __init__ function for this class.
-        self.llm = 
-        
+        self.llm = ChatOpenAI(
+            api_key=api_key,
+            model=llm_model,
+            temperature=temperature,
+            )
 
         # Create a memory for the chat assistant.
-        _memory = ConversationBufferWindowMemory(
-            input_key="human_input", k=history_length
-        )
+        self.memory = ConversationBufferWindowMemory(
+            input_key="human_input",
+            memory_key="history",
+            k=history_length,
+            )
 
         # TODO: Create an instance of `langchain.chains.LLMChain` with the appropriate settings.
         # This chain must combine our prompt, llm and also have a memory.
-        self.model = 
-        
+        self.model = LLMChain(
+            llm=self.llm,
+            prompt=self.prompt,
+            verbose=settings.LANGCHAIN_VERBOSE,
+            memory=self.memory
+        )
 
     def predict(self, human_input: str) -> str:
         """
@@ -87,13 +100,18 @@ class JobsFinderAssistant:
         # TODO: Use the human input and the user resume summary to search for jobs.
         # Hint 1: Use the `self.retriever` instance.
         # Hint 2: You can combine the human input with the resume summary just concatenating strings.
-        
 
         # Call the model to generate a response.
         # We will pass the original human_input on this step, the resume should
         # be used only for the retrieval of jobs (`search_results`).
+        query = f"{self.resume_summary} {human_input}"
+        jobs = self.retriever.find_jobs(query)
+        formatted_jobs = "\n".join([job.title for job in jobs])
         model_answer = self.model.invoke(
-            {"search_results": jobs, "human_input": human_input}
+            {
+                "search_results": formatted_jobs,
+                "human_input": human_input
+                }
         )
 
         return model_answer

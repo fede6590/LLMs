@@ -25,26 +25,46 @@ class ChatAssistant:
         history_length : int, optional
             The length of the conversation history to be stored in memory. Default is 3.
         """
+
         # TODO: Create a string template for the chat assistant. It must indicate the LLM
         # that a chat history is being provided and that a new question is being asked.
         # The template must have two input variables: `history` and `human_input`.
-        
-        
+        self.string = """You are a helpful AI assistant. Given conversation history, please answer the question:
+        \n{history}
+        \n
+        \nQuestion:
+        \n{human_input}
+        """
 
         # TODO: Create a prompt template using the string template created above.
         # Hint: Use the `langchain.prompts.PromptTemplate` class.
         # Hint: Don't forget to add the input variables: `history` and `human_input`.
-        self.prompt = 
+        self.prompt = PromptTemplate(
+            input_variables=["history", "human_input"],
+            template=self.string,
+            )
 
         # TODO: Create an instance of `langchain.chat_models.ChatOpenAI` with the appropriate settings.
         # Remember some settings are being provided in the __init__ function for this class.
-        self.llm = 
+        self.llm = ChatOpenAI(
+            api_key=api_key,
+            model=llm_model,
+            temperature=temperature,
+            )
 
         # TODO: Create an instance of `langchain.chains.LLMChain` with the appropriate settings.
         # This chain must combine our prompt, llm and also have a memory.
         # Hint: You can use the `langchain.memory.ConversationBufferWindowMemory` class with
         # `k=history_length``.
-        self.model = 
+        self.model = LLMChain(
+            llm=self.llm,
+            prompt=self.prompt,
+            verbose=settings.LANGCHAIN_VERBOSE,
+            memory=ConversationBufferWindowMemory(
+                memory_key='history',
+                k=history_length,
+                )
+        )
 
     def predict(self, human_input: str) -> str:
         """
@@ -60,8 +80,8 @@ class ChatAssistant:
         response : str
             The response from the chat assistant.
         """
-        response = self.model.invoke(human_input)
-
+        response = self.model.predict(human_input=human_input)
+        print(response)
         return response
 
 

@@ -35,21 +35,23 @@ def extract_text_from_pdf(pdf_bytes: BytesIO) -> str:
     'Hello, World!'
     """
 
-    if pdf_bytes.getbuffer().nbytes == 0:
-        raise ValueError("BytesIO object is empty")
-
     try:
-        reader = PyPDF2.PdfFileReader(pdf_bytes, )
-        if reader.numPages == 0:
+        reader = PyPDF2.PdfReader(pdf_bytes, )
+        if len(reader.pages) == 0:
             raise ValueError("PDF is empty")
 
         pdf_text = ""
-        for i in range(reader.numPages):
-            pdf_text += reader.getPage(i).extractText()
+        for i in range(len(reader.pages)):
+            pdf_text += reader.pages[i].extract_text()
+            print(pdf_text)
         return pdf_text
 
-    except PyPDF2.utils.PdfReadError:
-        raise ValueError("PDF is invalid")
+    except PyPDF2.PdfError as e:
+        raise ValueError(f"Invalid file: {e}")
 
     # TODO: Use PyPDF2.PdfReader to open the input `pdf_bytes` and extract the text from each page appended to `pdf_text`.
     # Hint: Use the `extract_text()` method of the `PyPDF2.PdfReader` object.
+
+
+with open('backend\\Federico_FERREYRA_CV_EN.pdf', 'rb') as pdf:
+    extract_text_from_pdf(pdf)

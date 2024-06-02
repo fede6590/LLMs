@@ -13,9 +13,9 @@ print("root", root)
 
 class Settings(BaseSettings):
     # NLP Models settings
-    OPENAI_API_KEY: Optional[str] = "fill-with-your-api-key"
-    OPENAI_LLM_MODEL: Optional[str] = ""
-    LANGCHAIN_VERBOSE: bool = False
+    OPENAI_API_KEY: Optional[str] = "sk-proj-vdoagZeK2of1aFSZVZM1T3BlbkFJlHZW3FQ3WxXDACqKaE1e"
+    OPENAI_LLM_MODEL: Optional[str] = "gpt-3.5-turbo"
+    LANGCHAIN_VERBOSE: bool = True
 
     # Document Ingestion
     DATASET_PATH: Optional[str] = f"{root}/dataset/jobs.csv"

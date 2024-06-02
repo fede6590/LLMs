@@ -94,5 +94,5 @@ async def main(
         await cl.Message(content="Please select an assistant first!").send()
         return
 
-    result = model.predict(message.content)["output"]
+    result = model.predict(message.content)  # ["output"]
     await cl.Message(content=result).send()

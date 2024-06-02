@@ -22,17 +22,27 @@ def build_cover_letter_writing(llm, resume):
         # that a resume and a job description is being provided, it must write a
         # cover letter for the job description using the applicant skills.
         # The template must have two input variables: `resume` and `job_description`.
-        
+        template = """
+        {resume}
+        {job_description}
+        """
 
         # TODO: Create a prompt template using the string template created above.
         # Hint: Use the `langchain.prompts.PromptTemplate` class.
         # Hint: Don't forget to add the input variables: `history` and `human_input`.
-        prompt = 
-        
+        prompt = PromptTemplate(
+            input_variables=["history", "human_input"],
+            template=template
+        )
 
         # TODO: Create an instance of `langchain.chains.LLMChain` with the appropriate settings.
         # This chain must combine our prompt and an llm. It doesn't need a memory.
-        cover_letter_writing_chain = 
+        cover_letter_writing_chain = LLMChain(
+            llm=llm,
+            prompt=prompt,
+            verbose=settings.LANGCHAIN_VERBOSE,
+        )
+        return cover_letter_writing_chain
 
     return cover_letter_writing
 
