@@ -36,9 +36,7 @@ async def select_assistant_action(action):
 
         file = files[0]
 
-        msg = cl.Message(
-            content=f"Processing `{file.name}`...", disable_feedback=True
-        )
+        msg = cl.Message(content=f"Processing `{file.name}`...", disable_feedback=True)
         await msg.send()
 
         resume = extract_text_from_pdf(open(file.path, "rb"))
@@ -76,9 +74,7 @@ async def on_chat_start():
             value="Jobs finder Assistant",
             label="Jobs finder Assistant",
         ),
-        cl.Action(
-            name="Select Assistant", value="Jobs Agent", label="Jobs Agent"
-        ),
+        cl.Action(name="Select Assistant", value="Jobs Agent", label="Jobs Agent"),
     ]
     await cl.Message(
         content="Interact with this action button:", actions=actions

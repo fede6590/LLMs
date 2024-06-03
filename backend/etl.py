@@ -10,6 +10,7 @@ from langchain_community.vectorstores.chroma import Chroma
 from tqdm import tqdm
 
 from backend.config import settings
+
 # from config import settings
 
 
@@ -58,9 +59,7 @@ class ETLProcessor:
         """
         self.dataset_path = dataset_path
         self.batch_size = batch_size
-        self.embedding = SentenceTransformerEmbeddings(
-            model_name=embedding_model
-        )
+        self.embedding = SentenceTransformerEmbeddings(model_name=embedding_model)
         self.collection_name = collection_name
         self.persist_directory = persist_directory
 
@@ -69,8 +68,7 @@ class ETLProcessor:
             chunk_size=chunk_size,
             add_start_index=True,
             length_function=len,
-            )
-
+        )
         # TODO: Create a text splitter using the
         # `langchain.text_splitter.RecursiveCharacterTextSplitter` class.
         # Hint: Use the `chunk_size` and `chunk_overlap` parameters.
@@ -84,14 +82,15 @@ class ETLProcessor:
         df : pd.DataFrame
             Jobs descriptions with extra metadata from the dataset.
         """
-        cols = ["description",
-                "Employment type",
-                "Seniority level",
-                "company",
-                "location",
-                "post_url",
-                "title"
-                ]
+        cols = [
+            "description",
+            "Employment type",
+            "Seniority level",
+            "company",
+            "location",
+            "post_url",
+            "title",
+        ]
 
         df = pd.read_csv(self.dataset_path)
         df = df[cols].dropna(axis=0)

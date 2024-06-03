@@ -43,6 +43,4 @@ def test_jobs_finder_agent(resume_summarizer_chain_mock):
     # AgentExecutor attributes tools
     assert len(job_finder_agent.agent_executor.tools) == 2
     assert job_finder_agent.agent_executor.tools[0].name == "jobs_finder"
-    assert (
-        job_finder_agent.agent_executor.tools[1].name == "cover_letter_writing"
-    )
+    assert job_finder_agent.agent_executor.tools[1].name == "cover_letter_writing"

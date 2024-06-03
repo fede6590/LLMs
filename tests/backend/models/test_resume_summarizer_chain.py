@@ -7,9 +7,7 @@ from backend.models.resume_summarizer_chain import get_resume_summarizer_chain, 
 @patch("backend.models.resume_summarizer_chain.PromptTemplate")
 @patch("backend.models.resume_summarizer_chain.ChatOpenAI")
 @patch("backend.models.resume_summarizer_chain.LLMChain")
-def test_get_resume_summarizer_chain(
-    LLMChainMock, ChatOpenAIMock, PromptTemplateMock
-):
+def test_get_resume_summarizer_chain(LLMChainMock, ChatOpenAIMock, PromptTemplateMock):
     # Mock the PromptTemplate class
     prompt_mock = MagicMock()
     PromptTemplateMock.return_value = prompt_mock

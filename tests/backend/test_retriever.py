@@ -23,9 +23,7 @@ def test_retriever_search(load_vector_store_mock):
     results = retriever.search("query", k=3)
 
     # Assert that the similarity_search method was called with the correct arguments
-    vector_store_mock.similarity_search.assert_called_once_with(
-        query="query", k=3
-    )
+    vector_store_mock.similarity_search.assert_called_once_with(query="query", k=3)
 
     # Assert that the search method returns the expected results
     assert results == ["document1", "document2", "document3"]

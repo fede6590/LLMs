@@ -18,39 +18,37 @@ def build_job_finder(job_finder_assistant):
 
 def build_cover_letter_writing(llm, resume):
     def cover_letter_writing(job_description: str):
-        # TODO: Create a string template for this chain. It must indicate the LLM
-        # that a resume and a job description is being provided, it must write a
-        # cover letter for the job description using the applicant skills.
-        # The template must have two input variables: `resume` and `job_description`.
         template = """
         {resume}
         {job_description}
         """
+        # TODO: Create a string template for this chain. It must indicate the LLM
+        # that a resume and a job description is being provided, it must write a
+        # cover letter for the job description using the applicant skills.
+        # The template must have two input variables: `resume` and `job_description`.
 
+        prompt = PromptTemplate(
+            input_variables=["history", "human_input"], template=template
+        )
         # TODO: Create a prompt template using the string template created above.
         # Hint: Use the `langchain.prompts.PromptTemplate` class.
         # Hint: Don't forget to add the input variables: `history` and `human_input`.
-        prompt = PromptTemplate(
-            input_variables=["history", "human_input"],
-            template=template
-        )
 
-        # TODO: Create an instance of `langchain.chains.LLMChain` with the appropriate settings.
-        # This chain must combine our prompt and an llm. It doesn't need a memory.
         cover_letter_writing_chain = LLMChain(
             llm=llm,
             prompt=prompt,
             verbose=settings.LANGCHAIN_VERBOSE,
         )
+        # TODO: Create an instance of `langchain.chains.LLMChain` with the appropriate settings.
+        # This chain must combine our prompt and an llm. It doesn't need a memory.
+
         return cover_letter_writing_chain
 
     return cover_letter_writing
 
 
 class JobsFinderAgent:
-    def __init__(
-        self, resume, llm_model, api_key, temperature=0, history_length=3
-    ):
+    def __init__(self, resume, llm_model, api_key, temperature=0, history_length=3):
         """
         Initialize the JobsFinderSimple class.
 
@@ -71,9 +69,7 @@ class JobsFinderAgent:
 
         self.resume = resume
 
-        self.llm = ChatOpenAI(
-            model=llm_model, api_key=api_key, temperature=temperature
-        )
+        self.llm = ChatOpenAI(model=llm_model, api_key=api_key, temperature=temperature)
 
         # Create the Job finder tool
         self.job_finder = JobsFinderAssistant(
@@ -89,9 +85,7 @@ class JobsFinderAgent:
 
     def create_agent(self):
         job_finder = build_job_finder(self.job_finder)
-        cover_letter_writing = build_cover_letter_writing(
-            self.llm, self.resume
-        )
+        cover_letter_writing = build_cover_letter_writing(self.llm, self.resume)
         tools = [
             Tool(
                 name="jobs_finder",

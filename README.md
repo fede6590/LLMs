@@ -14,7 +14,7 @@ This is a dataset for **creating a job-searching app**.
 
 ## Technical aspects
 
-To develop this Machine Learning model you will have to primary interact with the Jupyter notebook provided, called `AnyoneAI - Sprint Project 05.ipynb`. This notebook will guide you through all the steps you have to follow and the code you have to complete in the different parts of the project, also marked with a `TODO` comment.
+To develop this Machine Learning model you will have to primary interact with the Jupyter notebook provided. This notebook will guide you through all the steps you have to follow and the code you have to complete in the different parts of the project, also marked with a `TODO` comment.
 
 ## Install
 

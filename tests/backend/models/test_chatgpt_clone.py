@@ -27,9 +27,7 @@ def test_structure_chat_assistant():
     assert isinstance(chat_assistant.model, LLMChain)
 
     # ChatAssistant model attribute types
-    assert isinstance(
-        chat_assistant.model.memory, ConversationBufferWindowMemory
-    )
+    assert isinstance(chat_assistant.model.memory, ConversationBufferWindowMemory)
 
     # ChatAssistant model attribute values
     assert chat_assistant.model.llm == chat_assistant.llm

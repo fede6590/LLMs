@@ -36,7 +36,9 @@ def extract_text_from_pdf(pdf_bytes: BytesIO) -> str:
     """
 
     try:
-        reader = PyPDF2.PdfReader(pdf_bytes, )
+        reader = PyPDF2.PdfReader(
+            pdf_bytes,
+        )
         if len(reader.pages) == 0:
             raise ValueError("PDF is empty")
 
@@ -53,5 +55,5 @@ def extract_text_from_pdf(pdf_bytes: BytesIO) -> str:
     # Hint: Use the `extract_text()` method of the `PyPDF2.PdfReader` object.
 
 
-with open('backend\\Federico_FERREYRA_CV_EN.pdf', 'rb') as pdf:
-    extract_text_from_pdf(pdf)
+# with open("backend\\Federico_FERREYRA_CV_EN.pdf", "rb") as pdf:
+#     extract_text_from_pdf(pdf)

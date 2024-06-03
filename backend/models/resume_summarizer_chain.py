@@ -16,10 +16,7 @@ To summarize the resume provided below and extract the candidate's skills:
 def get_resume_summarizer_chain():
     # TODO: Create a prompt template using the string template created above.
     # Hint: Use the `langchain.prompts.PromptTemplate` class.
-    prompt = PromptTemplate(
-        input_variables=["resume"],
-        template=template
-        )
+    prompt = PromptTemplate(input_variables=["resume"], template=template)
 
     # TODO: Create an instance of `langchain.chat_models.ChatOpenAI` with the appropriate
     # settings.
@@ -29,7 +26,7 @@ def get_resume_summarizer_chain():
         api_key=settings.OPENAI_API_KEY,
         model=settings.OPENAI_LLM_MODEL,
         temperature=0,
-        )
+    )
 
     # TODO: Create an instance of `langchain.chains.LLMChain` with the appropriate settings.
     # This chain must combine our prompt and an llm. It doesn't need a memory.
@@ -37,7 +34,7 @@ def get_resume_summarizer_chain():
         llm=llm,
         prompt=prompt,
         verbose=settings.LANGCHAIN_VERBOSE,
-        )
+    )
 
     return resume_summarizer
 

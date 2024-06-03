@@ -13,7 +13,7 @@ print("root", root)
 
 class Settings(BaseSettings):
     # NLP Models settings
-    OPENAI_API_KEY: Optional[str] = "sk-proj-vdoagZeK2of1aFSZVZM1T3BlbkFJlHZW3FQ3WxXDACqKaE1e"
+    OPENAI_API_KEY: Optional[str] = ""
     OPENAI_LLM_MODEL: Optional[str] = "gpt-3.5-turbo"
     LANGCHAIN_VERBOSE: bool = True
 
