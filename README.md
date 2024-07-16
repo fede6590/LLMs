@@ -1,4 +1,4 @@
-#  LLM-Powered Apps Final Project
+#  LLM-Powered Apps
 
 ## The Business problem
 
